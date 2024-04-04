@@ -6,7 +6,8 @@ RUN apt update && \
     git \
     curl \
     librdkafka-dev \
-    wget
+    wget \
+    rsync
 
 # Install Bazelisk for building tensorflow packages
 WORKDIR /bazel
@@ -24,7 +25,6 @@ WORKDIR /tensorflow/addons
 RUN git checkout r0.19
 RUN python ./configure.py
 RUN bazel build --enable_runfiles build_pip_pkg
-RUN apt install -y rsync
 RUN bazel-bin/build_pip_pkg /artifacts
 
 # Build tensorflow-text to /artifacts directory
