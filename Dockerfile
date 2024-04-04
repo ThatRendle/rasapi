@@ -1,4 +1,4 @@
-FROM python:3.10-slim AS builder
+FROM --platform=arm64 python:3.10-slim AS builder
 
 RUN apt update && \
     apt install -y --no-install-recommends \
@@ -35,7 +35,7 @@ RUN git checkout 2.11
 RUN /bin/bash -c "source oss_scripts/configure.sh && bazel build --enable_runfiles oss_scripts/pip_package/build_pip_package && ./bazel-bin/oss_scripts/pip_package/build_pip_package /artifacts"
 
 # Runtime image
-FROM python:3.10-slim
+FROM --platform=arm64 python:3.10-slim
 
 RUN apt update && \
     apt install -y --no-install-recommends \
